@@ -143,7 +143,7 @@ class JournalViewModelTest {
     @Test
     fun `clear filters resets search query and mood and category`() = runTest {
         viewModel.onSearchQueryChanged("test")
-        viewModel.onMoodFilterChanged(Mood.GOOD)
+        viewModel.onMoodFilterChanged(Mood.HAPPY)
         viewModel.clearFilters()
         assertEquals("", viewModel.searchQuery.value)
         assertEquals(null, viewModel.selectedMood.value)
@@ -154,14 +154,14 @@ class JournalViewModelTest {
 
     @Test
     fun `mood filter returns only matching entries`() = runTest {
-        repository.insert(makeEntry(mood = Mood.GREAT))
-        repository.insert(makeEntry(mood = Mood.BAD))
+        repository.insert(makeEntry(mood = Mood.HAPPY))
+        repository.insert(makeEntry(mood = Mood.HOPEFUL))
         advanceUntilIdle()
-        viewModel.onMoodFilterChanged(Mood.GREAT)
+        viewModel.onMoodFilterChanged(Mood.HAPPY)
         advanceUntilIdle()
         val results = viewModel.entries.first()
         assertEquals(1, results.size)
-        assertEquals(Mood.GREAT.ordinal, results[0].mood)
+        assertEquals(Mood.HAPPY.ordinal, results[0].mood)
     }
 
     // ---- Category filter ----
@@ -181,8 +181,8 @@ class JournalViewModelTest {
     @Test
     fun `setting mood filter clears category filter`() = runTest {
         viewModel.onCategoryFilterChanged(Category.HEALTH)
-        viewModel.onMoodFilterChanged(Mood.OKAY)
+        viewModel.onMoodFilterChanged(Mood.HAPPY)
         assertEquals(null, viewModel.selectedCategory.value)
-        assertEquals(Mood.OKAY, viewModel.selectedMood.value)
+        assertEquals(Mood.HAPPY, viewModel.selectedMood.value)
     }
 }

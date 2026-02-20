@@ -151,12 +151,21 @@ class JournalDaoTest {
 
     @Test
     fun getEntriesByMoodFiltersCorrectly() = runTest {
-        dao.insert(makeEntry(mood = Mood.GREAT))
-        dao.insert(makeEntry(mood = Mood.BAD))
-        dao.insert(makeEntry(mood = Mood.GREAT))
-        val results = dao.getEntriesByMood(Mood.GREAT.ordinal).first()
-        assertEquals(2, results.size)
-        assertTrue(results.all { it.mood == Mood.GREAT.ordinal })
+        dao.insert(makeEntry(mood = Mood.HAPPY))
+        dao.insert(makeEntry(mood = Mood.GRATEFUL))
+        dao.insert(makeEntry(mood = Mood.OVERWHELMED))
+        dao.insert(makeEntry(mood = Mood.SAD))
+        dao.insert(makeEntry(mood = Mood.ANGRY))
+        dao.insert(makeEntry(mood = Mood.ANXIOUS))
+        dao.insert(makeEntry(mood = Mood.CALM))
+        dao.insert(makeEntry(mood = Mood.CONTENT))
+        dao.insert(makeEntry(mood = Mood.EXCITED))
+        dao.insert(makeEntry(mood = Mood.HOPEFUL))
+        dao.insert(makeEntry(mood = Mood.LONELY))
+        dao.insert(makeEntry(mood = Mood.TIRED))
+        val results = dao.getEntriesByMood(Mood.HAPPY.ordinal).first()
+        assertEquals(1, results.size)
+        assertTrue(results.all { it.mood == Mood.HAPPY.ordinal })
     }
 
     // ---- Filter by category ----
@@ -194,11 +203,21 @@ class JournalDaoTest {
 
     @Test
     fun getMoodCountsAggregatesCorrectly() = runTest {
-        dao.insert(makeEntry(mood = Mood.GREAT))
-        dao.insert(makeEntry(mood = Mood.GREAT))
-        dao.insert(makeEntry(mood = Mood.BAD))
+        dao.insert(makeEntry(mood = Mood.HAPPY))
+        dao.insert(makeEntry(mood = Mood.HAPPY))
+        dao.insert(makeEntry(mood = Mood.GRATEFUL))
+        dao.insert(makeEntry(mood = Mood.OVERWHELMED))
+        dao.insert(makeEntry(mood = Mood.SAD))
+        dao.insert(makeEntry(mood = Mood.ANGRY))
+        dao.insert(makeEntry(mood = Mood.ANXIOUS))
+        dao.insert(makeEntry(mood = Mood.CALM))
+        dao.insert(makeEntry(mood = Mood.CONTENT))
+        dao.insert(makeEntry(mood = Mood.EXCITED))
+        dao.insert(makeEntry(mood = Mood.HOPEFUL))
+        dao.insert(makeEntry(mood = Mood.LONELY))
+        dao.insert(makeEntry(mood = Mood.TIRED))
         val counts = dao.getMoodCounts()
-        val greatCount = counts.find { it.mood == Mood.GREAT.ordinal }?.count ?: 0
+        val greatCount = counts.find { it.mood == Mood.HAPPY.ordinal }?.count ?: 0
         assertEquals(2, greatCount)
     }
 
